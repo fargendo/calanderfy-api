@@ -26,4 +26,13 @@ public class CustomProfileRepoImpl implements CustomProfileRepo {
 
         template.updateFirst(query, update, UserProfile.class);
     }
+
+    @Override
+    public void updateProfileWithDeviceToken(UserProfile profile, String deviceToken) {
+        Query query = new Query(Criteria.where("profileEmail").is(profile.getProfileEmail()));
+        Update update = new Update();
+        update.set("deviceToken", deviceToken);
+
+        template.updateFirst(query, update, UserProfile.class);
+    }
 }

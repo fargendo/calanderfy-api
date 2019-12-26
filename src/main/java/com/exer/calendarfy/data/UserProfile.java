@@ -12,6 +12,7 @@ public class UserProfile {
 
     private String profileEmail;
     private ArrayList<Event> profileEvents = new ArrayList<>();
+    private String deviceToken;
 
     public UserProfile(String profileEmail, ArrayList<Event> profileEvents) {
         this.profileEmail = profileEmail;
@@ -36,5 +37,13 @@ public class UserProfile {
 
     public void setProfileEvents(ArrayList<Event> profileEvents) {
         this.profileEvents = profileEvents;
+    }
+
+    public String getDeviceToken() {
+        return deviceToken;
+    }
+
+    public void setDeviceToken(String deviceToken) {
+        this.deviceToken = deviceToken;
     }
 }
