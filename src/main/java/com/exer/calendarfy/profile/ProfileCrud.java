@@ -10,4 +10,5 @@ public interface ProfileCrud {
     void addEventToProfile(String profileEmail, Event event);
     void updateProfile(String profileEmail, String deviceToken);
     List<UserProfile> getAllProfiles();
+    void deleteEventForProfile(String profileEmail, Event event);
 }

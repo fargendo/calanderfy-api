@@ -21,9 +21,11 @@ public class FCMPush implements BasePush {
                 .addHeader("messageBody",pushRequest.getEvent().getEventDesc())
                 .build();
         new Thread(() -> {
+            Response response;
             try {
-                Response response = httpClient.newCall(request).execute();
+                response = httpClient.newCall(request).execute();
                 System.out.println("Posted to Sender with response: " + response);
+                response.close();
             } catch (IOException e) {
                 System.out.println("Failed to post message to sender: " + e);
                 RetryQueue.getInstance().addMessageToQueue(pushRequest);

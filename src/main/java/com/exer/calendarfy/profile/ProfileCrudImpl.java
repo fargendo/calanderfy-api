@@ -55,6 +55,22 @@ public class ProfileCrudImpl implements ProfileCrud {
         return profileRepository.findAll();
     }
 
+    @Override
+    public void deleteEventForProfile(String profileEmail, Event event) {
+        UserProfile profile = profileRepository.findFirstByProfileEmail(profileEmail);
+
+        if (profile == null) {
+            System.out.println("No profile found for given email");
+        } else {
+            System.out.println("Removing event for profile");
+            deleteEvent(profile, event);
+        }
+    }
+
+    private void deleteEvent(UserProfile profile, Event eventTitle) {
+        customProfileRepo.deleteEventForProfile(profile, eventTitle);
+    }
+
     private void registerNewProfile(String profileEmail, String deviceToken) {
         ArrayList<Event> eventList = new ArrayList<>();
         UserProfile profile = new UserProfile(profileEmail, eventList);
