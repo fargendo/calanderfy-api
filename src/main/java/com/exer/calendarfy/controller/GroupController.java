@@ -143,4 +143,11 @@ public class GroupController {
 
         return ResponseEntity.status(HttpStatus.OK).body(response.getResponse());
     }
+
+    @GetMapping("/getUsersInGroup")
+    public ResponseEntity<ArrayList<String>> getUsersInGroup(
+            @RequestHeader(value = "groupName") String groupName
+    ) {
+        return ResponseEntity.status(HttpStatus.OK).body(groupCrud.getGroupByGroupName(groupName).getGroupUsers());
+    }
 }
