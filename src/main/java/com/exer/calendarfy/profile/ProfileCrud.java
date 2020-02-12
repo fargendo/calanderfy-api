@@ -6,6 +6,7 @@ import com.exer.calendarfy.model.UserProfile;
 import java.util.List;
 
 public interface ProfileCrud {
+    boolean createProfile(String profileEmail);
     UserProfile getProfileByEmail(String profileEmail);
     boolean addEventToProfile(String requestingUser, String profileEmail, Event event);
     void updateProfile(String profileEmail, String deviceToken);

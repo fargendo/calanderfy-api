@@ -21,6 +21,21 @@ public class ProfileCrudImpl implements ProfileCrud {
     CustomProfileRepo customProfileRepo;
 
     @Override
+    public boolean createProfile(String profileEmail) {
+        UserProfile profile = profileRepository.findFirstByProfileEmail(profileEmail);
+
+        if (profile == null) {
+            Log.d("Creating new profile with profile email: " + profileEmail);
+            UserProfile newProfile = new UserProfile(profileEmail);
+
+            profileRepository.insert(newProfile);
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
     public UserProfile getProfileByEmail(String profileEmail) {
         return profileRepository.findFirstByProfileEmail(profileEmail);
     }

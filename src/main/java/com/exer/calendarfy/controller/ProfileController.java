@@ -21,6 +21,29 @@ public class ProfileController {
     @Autowired
     ProfileCrud profileCrud;
 
+
+    @PostMapping("/createProfile")
+    public ResponseEntity<HashMap<String, String>> createProfile(
+            @RequestHeader(value = "profileEmail") String profileEmail
+    ) {
+        BaseResponse response = new Response();
+
+        boolean success = profileCrud.createProfile(profileEmail);
+
+        if (success) {
+            response.setIsSuccessful(true);
+            response.addResponseHeader("success", "profile was created");
+
+            return ResponseEntity.status(HttpStatus.OK).body(response.getResponse());
+        }
+
+        response.setIsSuccessful(false);
+        response.addResponseHeader("error", "profile already exist");
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response.getResponse());
+    }
+
+
     @PostMapping("/updateProfile")
     public ResponseEntity<HashMap<String, String>> registerProfile (
             @RequestHeader(value = "profileEmail") String profileEmail,
@@ -51,5 +74,4 @@ public class ProfileController {
 
         return ResponseEntity.status(HttpStatus.OK).body(profile.getGroups());
     }
-
 }

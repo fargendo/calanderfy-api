@@ -18,6 +18,12 @@ public class UserProfile {
 
     private ArrayList<String> groups = new ArrayList<>();
 
+    public UserProfile() { }
+
+    public UserProfile(String profileEmail) {
+        this.profileEmail = profileEmail;
+    }
+
     public UserProfile(String profileEmail, ArrayList<Event> profileEvents) {
         this.profileEmail = profileEmail;
         this.profileEvents = profileEvents;
