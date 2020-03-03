@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class GroupCrudImpl implements GroupCrud {
@@ -91,10 +92,26 @@ public class GroupCrudImpl implements GroupCrud {
             return false;
         }
 
-        customGroupRepo.addUserToGroup(group, profileEmail);
-        profileCrud.addUserToGroup(profileEmail, profileEmail, groupName, true);
+        if (!checkIfUserAlreadyInGroup(group, profileEmail)) {
+            Log.d("Adding user " + profileEmail + "to group " + groupName);
+
+            customGroupRepo.addUserToGroup(group, profileEmail);
+            profileCrud.addUserToGroup(profileEmail, profileEmail, groupName, true);
+        } else {
+            Log.d("User is already a part of group");
+        }
 
         return true;
+    }
+
+    private boolean checkIfUserAlreadyInGroup(Group group, String requestingUser) {
+        for (String user : group.getGroupUsers()) {
+            if (user.equals(requestingUser)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     @Override
@@ -116,21 +133,26 @@ public class GroupCrudImpl implements GroupCrud {
     public boolean deleteGroup(String profileEmail, String groupName) {
         Group group = groupRepository.findFirstByGroupName(groupName);
 
-        if (group == null) {
-            Log.d("Group does not exist");
+        if (group == null || !checkIfUserAuthorized(group.getGroupUsers(), profileEmail)) {
             return false;
         }
 
         for (String user : group.getGroupUsers()) {
-            if (user.equals(profileEmail)) {
-                groupRepository.delete(group);
-                break;
-            } else {
-                Log.d("User does not have permission to edit group");
-                return false;
+            profileCrud.removeUserFromGroup(user, user, groupName);
+        }
+
+        groupRepository.delete(group);
+
+        return true;
+    }
+
+    private boolean checkIfUserAuthorized(List<String> users, String requestingUser) {
+        for (String user : users) {
+            if (user.equals(requestingUser)) {
+                return true;
             }
         }
 
-        return true;
+        return false;
     }
 }
