@@ -1,7 +1,6 @@
 package com.exer.calendarfy.controller;
 
 import com.exer.calendarfy.group.GroupCrud;
-import com.exer.calendarfy.log.Log;
 import com.exer.calendarfy.model.Event;
 import com.exer.calendarfy.response.BaseResponse;
 import com.exer.calendarfy.response.Response;

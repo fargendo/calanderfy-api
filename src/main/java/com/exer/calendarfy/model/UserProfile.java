@@ -11,7 +11,7 @@ public class UserProfile {
     private String id;
 
     private String profileEmail;
-    private ArrayList<Event> profileEvents;
+    private ArrayList<Event> profileEvents = new ArrayList<>();
 
     private ArrayList<String> authorizedUsers = new ArrayList<>();
     private String deviceToken;
